@@ -886,7 +886,10 @@ static int processReqAck(struct clientState *clst,
 #if DEBUG
         flprintf("old slice => sending ok\n");
 #endif
-        return sendOk(clst->client_config, sliceNo);
+        if ((clst->net_config->flags & FLAG_PASSIVE) == 0) {
+            return sendOk(clst->client_config, sliceNo);
+        }
+        return 0;
     }
 
     setSliceBytes(slice, clst, bytes);
@@ -894,8 +897,10 @@ static int processReqAck(struct clientState *clst,
     blocksInSlice = (slice->bytes + clst->net_config->blockSize - 1) /
         clst->net_config->blockSize;
     if (blocksInSlice == slice->blocksTransferred) {
-        /* send ok */
-        sendOk(clst->client_config, slice->sliceNo);
+        if ((clst->net_config->flags & FLAG_PASSIVE) == 0) {
+            /* send ok */
+            sendOk(clst->client_config, slice->sliceNo);
+        }
     } else {
 #if DEBUG
         flprintf("Ask for retransmission (%d/%d %d)\n",
