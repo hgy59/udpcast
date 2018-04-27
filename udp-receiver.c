@@ -87,15 +87,15 @@ static int signalNumber=0;
 
 #ifdef SIG_UNBLOCK
 static void signalForward(void) {
-	if(signalNumber != 0) {
-		sigset_t sig;
-		signal(signalNumber, SIG_DFL);
-		sigemptyset(&sig);
-		sigaddset(&sig, signalNumber);
-		sigprocmask(SIG_UNBLOCK, &sig, NULL);
-		raise(signalNumber);
-		perror("raise");
-	}
+        if(signalNumber != 0) {
+                sigset_t sig;
+                signal(signalNumber, SIG_DFL);
+                sigemptyset(&sig);
+                sigaddset(&sig, signalNumber);
+                sigprocmask(SIG_UNBLOCK, &sig, NULL);
+                raise(signalNumber);
+                perror("raise");
+        }
 }
 #endif
 
@@ -108,10 +108,10 @@ static void intHandler(int nr) {
 static void usage(char *progname) {
 #ifdef HAVE_GETOPT_LONG
     fprintf(stderr, "%s [--file file] [--pipe pipe] [--portbase portbase] [--interface net-interface] [--log file] [--no-progress] [--ttl time-to-live] [--mcast-rdv-address mcast-rdv-address] [--rcvbuf buf] [--nokbd] [--exit-wait milliseconds] [--nosync] [--sync] [--start-timeout sto] [--receive-timeout rct] [--license] [-x uncomprStatPrint] [-z statPeriod] [--print-uncompressed-position flag] [--stat-period millis] [--ignore-lost-data]\n", 
-	    progname);
+            progname);
 #else /* HAVE_GETOPT_LONG */
     fprintf(stderr, "%s [--f file] [--p pipe] [-P portbase] [-i net-interface] [-l logfile] [-t time-to-live] [-M mcast-rdv-address] [-b rcvbuf] [-k] [-w exit-wait-milliseconds] [-n] [-y] [-s start-timeout] [-L] [-x uncomprStatPrint] [-z statPeriod] [-Z]\n", 
-	    progname);
+            progname);
 #endif /* HAVE_GETOPT_LONG */
     exit(1);
 }
@@ -167,120 +167,120 @@ int main(int argc, char **argv)
 
     ptr = strrchr(argv[0], '/');
     if(!ptr)
-	ptr = argv[0];
+        ptr = argv[0];
     else
-	ptr++;
+        ptr++;
     
     net_config.net_if = NULL;
     if (strcmp(ptr, "init") == 0) {
-	doWarn = 1;
-	disk_config.pipeName = strdup("/bin/gzip -dc");
-	disk_config.fileName = "/dev/hda";
+        doWarn = 1;
+        disk_config.pipeName = strdup("/bin/gzip -dc");
+        disk_config.fileName = "/dev/hda";
     }
     while( (c=getopt_l(argc, argv, "b:f:p:P:i:l:M:s:t:w:x:z:dkLnyZ")) != EOF ) {
-	switch(c) {
-	    case 'f':
-		disk_config.fileName=optarg;
-		break;
-	    case 'i':
-		ifName=optarg;
-		break;
-	    case 'p':
-		disk_config.pipeName=optarg;
-		break;
-	    case 'P':
-		net_config.portBase = atoi(optarg);
-		break;
-	    case 'l':
-		udpc_log = fopen(optarg, "a");
-		break;
-	    case 0x701:
-		stat_config.noProgress = 1;
-		break;
-	    case 't': /* ttl */
-		net_config.ttl = atoi(optarg);
-		break;
-	    case 'M':
-		net_config.mcastRdv = strdup(optarg);
-		break;
+        switch(c) {
+            case 'f':
+                disk_config.fileName=optarg;
+                break;
+            case 'i':
+                ifName=optarg;
+                break;
+            case 'p':
+                disk_config.pipeName=optarg;
+                break;
+            case 'P':
+                net_config.portBase = atoi(optarg);
+                break;
+            case 'l':
+                udpc_log = fopen(optarg, "a");
+                break;
+            case 0x701:
+                stat_config.noProgress = 1;
+                break;
+            case 't': /* ttl */
+                net_config.ttl = atoi(optarg);
+                break;
+            case 'M':
+                net_config.mcastRdv = strdup(optarg);
+                break;
 
 #ifdef BB_FEATURE_UDPCAST_FEC
-	    case 'L':
-		    fec_license();
-		    break;
+            case 'L':
+                    fec_license();
+                    break;
 #endif
 
 #ifdef LOSSTEST
-	    case 0x601:
-		setWriteLoss(optarg);
-		break;
-	    case 0x602:
-		setReadLoss(optarg);
-		break;
-	    case 0x603:
-		seedSet=1;
-		srandom(strtoul(optarg,0,0));
-		break;
-	    case 0x604:
-		printSeed=1;
-		break;
-	    case 0x605:
-		setReadSwap(optarg);
-		break;
+            case 0x601:
+                setWriteLoss(optarg);
+                break;
+            case 0x602:
+                setReadLoss(optarg);
+                break;
+            case 0x603:
+                seedSet=1;
+                srandom(strtoul(optarg,0,0));
+                break;
+            case 0x604:
+                printSeed=1;
+                break;
+            case 0x605:
+                setReadSwap(optarg);
+                break;
 #endif
-	    case 'd': /* passive */
-		net_config.flags|=FLAG_PASSIVE;
-		break;
-	    case 'n': /* nosync */
-		disk_config.flags|=FLAG_NOSYNC;
-		break;
-	    case 'y': /* sync */
-		disk_config.flags|=FLAG_SYNC;
-		break;
-	    case 'b': /* rcvbuf */
-		net_config.requestedBufSize=parseSize(optarg);
-		break;
-	    case 'k': /* nokbd */
-		net_config.flags |= FLAG_NOKBD;
-		break;
+            case 'd': /* passive */
+                net_config.flags|=FLAG_PASSIVE;
+                break;
+            case 'n': /* nosync */
+                disk_config.flags|=FLAG_NOSYNC;
+                break;
+            case 'y': /* sync */
+                disk_config.flags|=FLAG_SYNC;
+                break;
+            case 'b': /* rcvbuf */
+                net_config.requestedBufSize=parseSize(optarg);
+                break;
+            case 'k': /* nokbd */
+                net_config.flags |= FLAG_NOKBD;
+                break;
 
-	    case 'w': /* exit-wait */
-		net_config.exitWait = atoi(optarg);
-		break;
+            case 'w': /* exit-wait */
+                net_config.exitWait = atoi(optarg);
+                break;
 
-	    case 's': /* start-timeout */
-		net_config.startTimeout = atoi(optarg);		
-		break;
+            case 's': /* start-timeout */
+                net_config.startTimeout = atoi(optarg);                
+                break;
 
-	    case 0x801: /* receive-timeout */
-		net_config.receiveTimeout = atoi(optarg);
-		break;
+            case 0x801: /* receive-timeout */
+                net_config.receiveTimeout = atoi(optarg);
+                break;
 
-	    case 'z':
-		stat_config.statPeriod = atoi(optarg) * 1000;
-		break;
-	    case 'x':
-		stat_config.printUncompressedPos = atoi(optarg);
-		break;
+            case 'z':
+                stat_config.statPeriod = atoi(optarg) * 1000;
+                break;
+            case 'x':
+                stat_config.printUncompressedPos = atoi(optarg);
+                break;
 
-	    case 'Z':
-		net_config.flags |= FLAG_IGNORE_LOST_DATA;
-		break;
+            case 'Z':
+                net_config.flags |= FLAG_IGNORE_LOST_DATA;
+                break;
 
-	    case '?':
+            case '?':
 #ifndef NO_BB
-	        bb_show_usage();
+                bb_show_usage();
 #else
-		usage(argv[0]);
+                usage(argv[0]);
 #endif
-	}
+        }
     }
 
     fprintf(stderr, "Udp-receiver %s\n", version);
 
 #ifdef LOSSTEST
     if(!seedSet)
-	srandomTime(printSeed);
+        srandomTime(printSeed);
 #endif
 
     signal(SIGINT, intHandler);

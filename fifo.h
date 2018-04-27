@@ -10,7 +10,7 @@ typedef struct fifo {
 
     produconsum_t freeMemQueue; /* queue for free memory */
     produconsum_t data; /* queue for received data or data received 
-			 * from disk */
+                         * from disk */
 
     pthread_t thread;
 } *fifo_t;

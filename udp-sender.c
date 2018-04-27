@@ -143,21 +143,21 @@ static void usage(char *progname) {
 #ifdef HAVE_GETOPT_LONG
     fprintf(stderr, "%s [--file file] [--full-duplex] [--pipe pipe] [--portbase portbase] [--blocksize size] [--interface net-interface] [--mcast-data-address data-mcast-address] [--mcast-rdv-address mcast-rdv-address] [--max-bitrate bitrate] [--pointopoint] [--async] [--log file] [--no-progress] [--min-slice-size min] [--max-slice-size max] [--slice-size] [--ttl time-to-live] [--fec <stripes>x<redundancy>/<stripesize>] [--print-seed] [--rexmit-hello-interval interval] [--autostart autostart] [--broadcast] [--min-receivers receivers] [--min-wait sec] [--max-wait sec] [--start-timeout n] [--retries-until-drop n] [--nokbd] [--bw-period n] [--streaming] [--rehello-offset offs]"
 #ifdef DL_RATE_GOVERNOR
-	    " [--rate-governor module:parameters]" 
+            " [--rate-governor module:parameters]" 
 #endif
 #ifdef FLAG_AUTORATE
-	    " [--autorate]"
+            " [--autorate]"
 #endif
-	    "[--license]\n", progname); /* FIXME: copy new options to busybox */
+            "[--license]\n", progname); /* FIXME: copy new options to busybox */
 #else /* HAVE_GETOPT_LONG */
     fprintf(stderr, "%s [-f file] [-d] [-p pipe] [-P portbase] [-b size] [-i net-interface] [-m data-mcast-address] [-M mcast-rdv-address] [-r bitrate] [-1] [-a] [-l logfile] [-t time-to-live] [-F <stripes>x<redundancy>/<stripesize>][-H hello-retransmit-interval] [-S autostart] [-B] [-C min-receivers] [-w min-wait-sec] [-w max-wait-sec] [-T start-timeout] [-R n] [-k] [-I n] [-x uncomprStatPrint] [-z statPeriod] [-Z] [-Y rehello-offset]"
 #ifdef DL_RATE_GOVERNOR
-	    " [-g rate-governor:parameters ]" 
+            " [-g rate-governor:parameters ]" 
 #endif
 #ifdef FLAG_AUTORATE
-	    " [-A]"
+            " [-A]"
 #endif
-	    " [-L]\n", progname); /* FIXME: copy new options to busybox */
+            " [-L]\n", progname); /* FIXME: copy new options to busybox */
 #endif /* HAVE_GETOPT_LONG */
     exit(1);
 }
@@ -242,350 +242,350 @@ int main(int argc, char **argv)
 
     ptr = strrchr(argv[0], '/');
     if(!ptr)
-	ptr = argv[0];
+        ptr = argv[0];
     else
-	ptr++;
+        ptr++;
 
     net_config.net_if = NULL;
     if (strcmp(ptr, "init") == 0) {
-	disk_config.pipeName = strdup("/bin/gzip -c");
-	disk_config.fileName = "/dev/hda";
+        disk_config.pipeName = strdup("/bin/gzip -c");
+        disk_config.fileName = "/dev/hda";
     } else {
-	const char *argLetters = 
-	    "b:C:f:F:"
+        const char *argLetters = 
+            "b:C:f:F:"
 #ifdef DL_RATE_GOVERNOR
-	    "g:"
+            "g:"
 #endif
-	    "H:i:I:"
+            "H:i:I:"
 #ifdef HAVE_KILL
-	    "K"
+            "K"
 #endif
-	    "l:m:M:p:P:r:R:s:S:t:T:w:W:x:z:12a"
+            "l:m:M:p:P:r:R:s:S:t:T:w:W:x:z:12a"
 #ifdef FLAG_AUTORATE
-	    "A"
+            "A"
 #endif
-	    "BcdDkLY:Z";
+            "BcdDkLY:Z";
         while( (c=getopt_l(argc, argv, argLetters)) 
-	       != EOF ) {
-	    switch(c) {
-		case 'a':
-		    net_config.flags |= FLAG_ASYNC|FLAG_SN;
-		    break;
-		case 'c':
-		    net_config.flags &= ~FLAG_SN;
-		    net_config.flags |= FLAG_NOTSN;
-		    break;
-		case 'd':
-		    net_config.flags |= FLAG_SN;
-		    break;		    
-		case 'f':
-		    disk_config.fileName=optarg;
-		    break;
-		case 'i':
-		    ifName=optarg;
-		    break;
-		case 'p':
-		    disk_config.pipeName=optarg;
-		    break;
-		case 'P':
-		    net_config.portBase = atoi(optarg);
-		    break;
-		case '1':
-		    net_config.flags |= FLAG_POINTOPOINT;
-		    break;
-		case '2':
-		    net_config.flags |= FLAG_NOPOINTOPOINT;
-		    break;
-		case 'b':
-		    net_config.blockSize = strtoul(optarg, 0, 0);
-		    net_config.blockSize -= net_config.blockSize % 4;
-		    if (net_config.blockSize <= 0) {
-			perror("block size too small");
-			exit(1);
-		    }
+               != EOF ) {
+            switch(c) {
+                case 'a':
+                    net_config.flags |= FLAG_ASYNC|FLAG_SN;
+                    break;
+                case 'c':
+                    net_config.flags &= ~FLAG_SN;
+                    net_config.flags |= FLAG_NOTSN;
+                    break;
+                case 'd':
+                    net_config.flags |= FLAG_SN;
+                    break;                    
+                case 'f':
+                    disk_config.fileName=optarg;
+                    break;
+                case 'i':
+                    ifName=optarg;
+                    break;
+                case 'p':
+                    disk_config.pipeName=optarg;
+                    break;
+                case 'P':
+                    net_config.portBase = atoi(optarg);
+                    break;
+                case '1':
+                    net_config.flags |= FLAG_POINTOPOINT;
+                    break;
+                case '2':
+                    net_config.flags |= FLAG_NOPOINTOPOINT;
+                    break;
+                case 'b':
+                    net_config.blockSize = strtoul(optarg, 0, 0);
+                    net_config.blockSize -= net_config.blockSize % 4;
+                    if (net_config.blockSize <= 0) {
+                        perror("block size too small");
+                        exit(1);
+                    }
 #if 0
-		    if (net_config.blockSize > 1456) {
-			perror("block size too large");
-			exit(1);
-		    }
+                    if (net_config.blockSize > 1456) {
+                        perror("block size too large");
+                        exit(1);
+                    }
 #endif
-		    break;
-		case 'l':
-		    stat_config.log = udpc_log = fopen(optarg, "a");
-		    break;
-		case 0x701:
-		    stat_config.noProgress = 1;
-		    break;
-		case 'm':
-		    setIpFromString(&net_config.dataMcastAddr, optarg);
-		    ipIsZero(&net_config.dataMcastAddr);
-		    dataMcastSupplied = 1;
-		    break;
-		case 'M':
-		    net_config.mcastRdv = strdup(optarg);
-		    break;
-		case 'r':
-		    {
-			void *gov = rgInitGovernor(&net_config, &maxBitrate);
-			maxBitrate.rgSetProp(gov, MAX_BITRATE, optarg);
-		    }
-		    break;
-		case 'A':
+                    break;
+                case 'l':
+                    stat_config.log = udpc_log = fopen(optarg, "a");
+                    break;
+                case 0x701:
+                    stat_config.noProgress = 1;
+                    break;
+                case 'm':
+                    setIpFromString(&net_config.dataMcastAddr, optarg);
+                    ipIsZero(&net_config.dataMcastAddr);
+                    dataMcastSupplied = 1;
+                    break;
+                case 'M':
+                    net_config.mcastRdv = strdup(optarg);
+                    break;
+                case 'r':
+                    {
+                        void *gov = rgInitGovernor(&net_config, &maxBitrate);
+                        maxBitrate.rgSetProp(gov, MAX_BITRATE, optarg);
+                    }
+                    break;
+                case 'A':
 #ifdef FLAG_AUTORATE
-		    rgInitGovernor(&net_config, &autoRate);
+                    rgInitGovernor(&net_config, &autoRate);
 #else
-		    fatal(1, 
-			  "Auto rate limit not supported on this platform\n");
+                    fatal(1, 
+                          "Auto rate limit not supported on this platform\n");
 #endif
-		    break;
-		case 0x0101:
-		    net_config.min_slice_size = atoi(optarg);
-		    if(net_config.min_slice_size > MAX_SLICE_SIZE)
-			fatal(1, "min slice size too big\n");
-		    break;
-		case 0x0102:
-		    net_config.default_slice_size = atoi(optarg);
-		    break;
-		case 0x0103:
-		    net_config.max_slice_size = atoi(optarg);
-		    if(net_config.max_slice_size > MAX_SLICE_SIZE)
-			fatal(1, "max slice size too big\n");
-		    break;
-	        case 't': /* ttl */
-		    net_config.ttl = atoi(optarg);
-		    break;
+                    break;
+                case 0x0101:
+                    net_config.min_slice_size = atoi(optarg);
+                    if(net_config.min_slice_size > MAX_SLICE_SIZE)
+                        fatal(1, "min slice size too big\n");
+                    break;
+                case 0x0102:
+                    net_config.default_slice_size = atoi(optarg);
+                    break;
+                case 0x0103:
+                    net_config.max_slice_size = atoi(optarg);
+                    if(net_config.max_slice_size > MAX_SLICE_SIZE)
+                        fatal(1, "max slice size too big\n");
+                    break;
+                case 't': /* ttl */
+                    net_config.ttl = atoi(optarg);
+                    break;
 #ifdef BB_FEATURE_UDPCAST_FEC
-	        case 'F': /* fec */
-		    net_config.flags |= FLAG_FEC;
-		    {
-			char *eptr;
-			ptr = strchr(optarg, 'x');
-			if(ptr) {
-			    net_config.fec_stripes = 
-				strtoul(optarg, &eptr, 10);
-			    if(ptr != eptr) {
-				flprintf("%s != %s\n", ptr, eptr);
-				usage(argv[0]);
-			    }
-			    ptr++;
-			} else {
-			    net_config.fec_stripes = 8;
-			    ptr = optarg;
-			}
-			net_config.fec_redundancy = strtoul(ptr, &eptr, 10);
-			if(*eptr == '/') {
-			    ptr = eptr+1;
-			    net_config.fec_stripesize = 
-				strtoul(ptr, &eptr, 10);
-			} else {
-			    net_config.fec_stripesize = 128;
-			}
-			if(*eptr) {
-			    flprintf("string not at end %s\n", eptr);
-			    usage(argv[0]);
-			}
-			fprintf(stderr, "stripes=%d redund=%d stripesize=%d\n",
-				net_config.fec_stripes,
-				net_config.fec_redundancy,
-				net_config.fec_stripesize);
-		    }
-		    break;
-	    case 'z':
-		    stat_config.statPeriod = atoi(optarg) * 1000;
-		    break;
-	    case 'x':
-		    stat_config.printUncompressedPos = atoi(optarg);
-		    break;
-	    case 'L':
-		    fec_license();
-		    break;
+                case 'F': /* fec */
+                    net_config.flags |= FLAG_FEC;
+                    {
+                        char *eptr;
+                        ptr = strchr(optarg, 'x');
+                        if(ptr) {
+                            net_config.fec_stripes = 
+                                strtoul(optarg, &eptr, 10);
+                            if(ptr != eptr) {
+                                flprintf("%s != %s\n", ptr, eptr);
+                                usage(argv[0]);
+                            }
+                            ptr++;
+                        } else {
+                            net_config.fec_stripes = 8;
+                            ptr = optarg;
+                        }
+                        net_config.fec_redundancy = strtoul(ptr, &eptr, 10);
+                        if(*eptr == '/') {
+                            ptr = eptr+1;
+                            net_config.fec_stripesize = 
+                                strtoul(ptr, &eptr, 10);
+                        } else {
+                            net_config.fec_stripesize = 128;
+                        }
+                        if(*eptr) {
+                            flprintf("string not at end %s\n", eptr);
+                            usage(argv[0]);
+                        }
+                        fprintf(stderr, "stripes=%d redund=%d stripesize=%d\n",
+                                net_config.fec_stripes,
+                                net_config.fec_redundancy,
+                                net_config.fec_stripesize);
+                    }
+                    break;
+            case 'z':
+                    stat_config.statPeriod = atoi(optarg) * 1000;
+                    break;
+            case 'x':
+                    stat_config.printUncompressedPos = atoi(optarg);
+                    break;
+            case 'L':
+                    fec_license();
+                    break;
 #endif
 #ifdef LOSSTEST
-		case 0x601:
-		    setWriteLoss(optarg);
-		    break;
-		case 0x602:
-		    setReadLoss(optarg);
-		    break;
-		case 0x603:
-		    seedSet=1;
-		    srandom(strtoul(optarg,0,0));
-		    break;
-		case 0x604:
-		    printSeed=1;
-		    break;
+                case 0x601:
+                    setWriteLoss(optarg);
+                    break;
+                case 0x602:
+                    setReadLoss(optarg);
+                    break;
+                case 0x603:
+                    seedSet=1;
+                    srandom(strtoul(optarg,0,0));
+                    break;
+                case 0x604:
+                    printSeed=1;
+                    break;
 #endif
-	        case 'H': /* rexmit-hello-interval */
-		    net_config.rexmit_hello_interval = atoi(optarg);
-		    break;
-	        case 'S': /* autostart */
-		    net_config.autostart = atoi(optarg);
-		    break;
-	        case 'B': /* broadcast */
-		    net_config.flags |= FLAG_BCAST;
-		    break;		    
-	        case 's': /* sendbuf */
-		    net_config.requestedBufSize=parseSize(optarg);
-		    break;		    
-	        case 'C': /* min-clients */
-		    net_config.min_receivers = atoi(optarg);
-		    break;
-	        case 'W': /* max-wait */
-		    net_config.max_receivers_wait = atoi(optarg);
-		    break;
-	        case 'w': /* min-wait */
-		    net_config.min_receivers_wait = atoi(optarg);
-		    break;
-	        case 'T': /* start timeout */
-		    net_config.startTimeout = atoi(optarg);
-		    break;
-	        case 'k': /* nokbd */
-		    net_config.flags |= FLAG_NOKBD;
-		    break;
+                case 'H': /* rexmit-hello-interval */
+                    net_config.rexmit_hello_interval = atoi(optarg);
+                    break;
+                case 'S': /* autostart */
+                    net_config.autostart = atoi(optarg);
+                    break;
+                case 'B': /* broadcast */
+                    net_config.flags |= FLAG_BCAST;
+                    break;                    
+                case 's': /* sendbuf */
+                    net_config.requestedBufSize=parseSize(optarg);
+                    break;                    
+                case 'C': /* min-clients */
+                    net_config.min_receivers = atoi(optarg);
+                    break;
+                case 'W': /* max-wait */
+                    net_config.max_receivers_wait = atoi(optarg);
+                    break;
+                case 'w': /* min-wait */
+                    net_config.min_receivers_wait = atoi(optarg);
+                    break;
+                case 'T': /* start timeout */
+                    net_config.startTimeout = atoi(optarg);
+                    break;
+                case 'k': /* nokbd */
+                    net_config.flags |= FLAG_NOKBD;
+                    break;
 
-	        case 'R': /* retries-until-drop */
-		    net_config.retriesUntilDrop = atoi(optarg);
-		    break;
+                case 'R': /* retries-until-drop */
+                    net_config.retriesUntilDrop = atoi(optarg);
+                    break;
 
-	        case 'D': /* daemon-mode */
-		    daemon_mode++;
-		    break;
-		case 'K':
-		    doKill = 1;
-		    break;
-		case 0x901:
-		    pidfile = optarg;
-		    break;
+                case 'D': /* daemon-mode */
+                    daemon_mode++;
+                    break;
+                case 'K':
+                    doKill = 1;
+                    break;
+                case 0x901:
+                    pidfile = optarg;
+                    break;
 
-	        case 'I': /* bw-period */
-		    stat_config.bwPeriod = atol(optarg);
-		    break;
+                case 'I': /* bw-period */
+                    stat_config.bwPeriod = atol(optarg);
+                    break;
 #ifdef DL_RATE_GOVERNOR
-	        case 'g': /* rate governor */
-		    rgParseRateGovernor(&net_config, optarg);
-		    break;
+                case 'g': /* rate governor */
+                    rgParseRateGovernor(&net_config, optarg);
+                    break;
 #endif
-		case 'Z':
-		    net_config.flags |= FLAG_STREAMING;
-		    break;
-		case 'Y':
-		    net_config.rehelloOffset = atol(optarg);
-		    break;
-	        default:
-		case '?':
-		    usage(argv[0]);
-	    }
-	}
+                case 'Z':
+                    net_config.flags |= FLAG_STREAMING;
+                    break;
+                case 'Y':
+                    net_config.rehelloOffset = atol(optarg);
+                    break;
+                default:
+                case '?':
+                    usage(argv[0]);
+            }
+        }
     }
 
 #ifdef HAVE_KILL
     if(doKill) {
-	FILE *p;
-	char line[80];
-	int pid;
+        FILE *p;
+        char line[80];
+        int pid;
 
-	if(pidfile == NULL) {
-	    fprintf(stderr, "-K only works together with --pidfile\n");
-	    return 1;
-	}
-	p = fopen(pidfile, "r");
-	if(p == NULL) {
-	    perror("Could not read pidfile");
-	    return 1;
-	}
-	if(fgets(line, sizeof(line), p) == NULL) {
-	    fprintf(stderr, "Empty pid file\n");
-	    return 1;
-	}
-	fclose(p);
-	pid = atoi(line);
-	if(pid <= 0) {
-	    fprintf(stderr, "Negative or null pid\n");
-	    return -1;
-	}
+        if(pidfile == NULL) {
+            fprintf(stderr, "-K only works together with --pidfile\n");
+            return 1;
+        }
+        p = fopen(pidfile, "r");
+        if(p == NULL) {
+            perror("Could not read pidfile");
+            return 1;
+        }
+        if(fgets(line, sizeof(line), p) == NULL) {
+            fprintf(stderr, "Empty pid file\n");
+            return 1;
+        }
+        fclose(p);
+        pid = atoi(line);
+        if(pid <= 0) {
+            fprintf(stderr, "Negative or null pid\n");
+            return -1;
+        }
 
-	if(kill(pid, SIGTERM) < 0) {
-	    if(errno == ESRCH) {
-		/* Process does not exist => already killed */
-		unlink(pidfile);
-	    }
-	    perror("Kill");
-	    return 1;	   
-	}
-	return 0;
+        if(kill(pid, SIGTERM) < 0) {
+            if(errno == ESRCH) {
+                /* Process does not exist => already killed */
+                unlink(pidfile);
+            }
+            perror("Kill");
+            return 1;           
+        }
+        return 0;
     }
 #endif
 
     if(net_config.flags & FLAG_ASYNC) {
       if(dataMcastSupplied)
-	net_config.flags &= ~FLAG_POINTOPOINT;
+        net_config.flags &= ~FLAG_POINTOPOINT;
       if(net_config.flags & FLAG_POINTOPOINT) {
-	fprintf(stderr, "Pointopoint supplied together with async, but no dataMcastAddress (-m)\n");
-	return -1;
+        fprintf(stderr, "Pointopoint supplied together with async, but no dataMcastAddress (-m)\n");
+        return -1;
       }
     }
 
     if(optind < argc && !disk_config.fileName) {
-	disk_config.fileName = argv[optind++];
+        disk_config.fileName = argv[optind++];
     }
 
     if(optind < argc) {
-	fprintf(stderr, "Extra argument \"%s\" ignored\n", argv[optind]);
+        fprintf(stderr, "Extra argument \"%s\" ignored\n", argv[optind]);
     }
 
     if((net_config.flags & FLAG_POINTOPOINT) &&
        (net_config.flags & FLAG_NOPOINTOPOINT)) {
-	fatal(1,"pointopoint and nopointopoint cannot be set both\n");
+        fatal(1,"pointopoint and nopointopoint cannot be set both\n");
     }
 
     if( (net_config.autostart || (net_config.flags & FLAG_ASYNC)) &&
-	net_config.rexmit_hello_interval == 0)
-	net_config.rexmit_hello_interval = 1000;
+        net_config.rexmit_hello_interval == 0)
+        net_config.rexmit_hello_interval = 1000;
 
 #ifdef LOSSTEST
     if(!seedSet)
-	srandomTime(printSeed);
+        srandomTime(printSeed);
 #endif
     if(net_config.flags &  FLAG_ASYNC) {
-	if(net_config.rateGovernor == 0) {
-	    fprintf(stderr, 
-		    "Async mode chosen but no rate governor ==> unsafe\n");
-	    fprintf(stderr, 
-		    "Transmission would fail due to buffer overrung\n");
-	    fprintf(stderr, 
-		    "Add \"--max-bitrate 9500k\" to commandline (for example)\n");
-	    exit(1);
-	}
+        if(net_config.rateGovernor == 0) {
+            fprintf(stderr, 
+                    "Async mode chosen but no rate governor ==> unsafe\n");
+            fprintf(stderr, 
+                    "Transmission would fail due to buffer overrung\n");
+            fprintf(stderr, 
+                    "Add \"--max-bitrate 9500k\" to commandline (for example)\n");
+            exit(1);
+        }
 #ifdef BB_FEATURE_UDPCAST_FEC
-	if(! (net_config.flags & FLAG_FEC)) 
+        if(! (net_config.flags & FLAG_FEC)) 
 #endif
-	  {
-	    fprintf(stderr, 
-		    "Warning: Async mode but no forward error correction\n");
-	    fprintf(stderr, 
-		    "Transmission may fail due to packet loss\n");
-	    fprintf(stderr, 
-		    "Add \"--fec 8x8\" to commandline\n");
-	}
+          {
+            fprintf(stderr, 
+                    "Warning: Async mode but no forward error correction\n");
+            fprintf(stderr, 
+                    "Transmission may fail due to packet loss\n");
+            fprintf(stderr, 
+                    "Add \"--fec 8x8\" to commandline\n");
+        }
     }
 
     if(net_config.min_slice_size < 1)
-	net_config.min_slice_size = 1;
+        net_config.min_slice_size = 1;
     if(net_config.max_slice_size < net_config.min_slice_size)
-	net_config.max_slice_size = net_config.min_slice_size;
+        net_config.max_slice_size = net_config.min_slice_size;
     if(net_config.default_slice_size != 0) {
-	if(net_config.default_slice_size < net_config.min_slice_size)
-	    net_config.default_slice_size = net_config.min_slice_size;
-	if(net_config.default_slice_size > net_config.max_slice_size)
-	    net_config.default_slice_size = net_config.max_slice_size;
+        if(net_config.default_slice_size < net_config.min_slice_size)
+            net_config.default_slice_size = net_config.min_slice_size;
+        if(net_config.default_slice_size > net_config.max_slice_size)
+            net_config.default_slice_size = net_config.max_slice_size;
     }
 
     if(daemon_mode < 2)
-	fprintf(stderr, "Udp-sender %s\n", version);
+        fprintf(stderr, "Udp-sender %s\n", version);
 
     /*
     if(disk_config.fileName == NULL && disk_config.pipeName == NULL) {
-	fatal(1, "You must supply file or pipe\n");
+        fatal(1, "You must supply file or pipe\n");
     }
      end of argument parsing */
 
@@ -595,29 +595,29 @@ int main(int argc, char **argv)
 
     mainSock = openMainSenderSock(&net_config, ifName);
     if(mainSock < 0) {
-	perror("Make main sock");
-	exit(1);
+        perror("Make main sock");
+        exit(1);
     }
 
 #ifdef HAVE_DAEMON
     if(daemon_mode == 2) {
-	net_config.flags |= FLAG_NOKBD;
-	stat_config.noProgress = 1;
-	if(daemon(1, 0) < 0) {
-	    perror("Could not daemonize");
-	    exit(1);
-	}
-	if(pidfile) {
-	    FILE *p = fopen(pidfile, "w");
-	    fprintf(p, "%d\n", getpid());
-	    fclose(p);
-	    signal(SIGTERM, cleanPidfile);
-	}
+        net_config.flags |= FLAG_NOKBD;
+        stat_config.noProgress = 1;
+        if(daemon(1, 0) < 0) {
+            perror("Could not daemonize");
+            exit(1);
+        }
+        if(pidfile) {
+            FILE *p = fopen(pidfile, "w");
+            fprintf(p, "%d\n", getpid());
+            fclose(p);
+            signal(SIGTERM, cleanPidfile);
+        }
     }
 #endif
 
     do {
-	r= startSender(&disk_config, &net_config, &stat_config, mainSock);
+        r= startSender(&disk_config, &net_config, &stat_config, mainSock);
     } while(daemon_mode);
 
     closesocket(mainSock);

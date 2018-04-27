@@ -134,13 +134,13 @@ int getMcastAllAddress(struct sockaddr_in *addr, const char *address, short port
 
 int doSend(int s, void *message, size_t len, struct sockaddr_in *to);
 int doReceive(int s, void *message, size_t len,
-	      struct sockaddr_in *from, int portBase);
+              struct sockaddr_in *from, int portBase);
 
 void printMyIp(net_if_t *net_if);
 
 
 int makeSocket(addr_type_t addr_type, net_if_t *net_if, 
-	       struct sockaddr_in *tmpl, int port);
+               struct sockaddr_in *tmpl, int port);
 
 int setSocketToBroadcast(int sock);
 int setTtl(int sock, int ttl);
@@ -156,13 +156,13 @@ void setRcvBuf(int sock, unsigned int bufsize);
 
 
 #define SEND(s, msg, to) \
-	doSend(s, &msg, sizeof(msg), &to)
+        doSend(s, &msg, sizeof(msg), &to)
 
 #define RECV(s, msg, from, portBase ) \
-	doReceive((s), &msg, sizeof(msg), &from, (portBase) )
+        doReceive((s), &msg, sizeof(msg), &from, (portBase) )
 
 #define BCAST_CONTROL(s, msg) \
-	doSend(s, &msg, sizeof(msg), &net_config->controlMcastAddr)
+        doSend(s, &msg, sizeof(msg), &net_config->controlMcastAddr)
 
 unsigned short getPort(struct sockaddr_in *addr);
 void setPort(struct sockaddr_in *addr, unsigned short port);

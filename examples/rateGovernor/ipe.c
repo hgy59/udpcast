@@ -45,13 +45,13 @@ struct ipe_packet {
 
 struct ipe {
   struct sockaddr_in recv; /* address to which the traffic control packets
-			    * are sent */
+                            * are sent */
 
   char *interface; /* name of network interface where traffic control
-		      packets will be received */
+                      packets will be received */
 
   int fd; /* file descriptor on which the traffic control packets are
-	     received */
+             received */
 
   int maxFillLevel; /* percent of maximum buffer fill level */
 
@@ -60,17 +60,17 @@ struct ipe {
   pthread_t thread; /* thread receiving the multicasted announcements */
   pthread_mutex_t mutex; /* mutex protecting the traffic control packets */
   pthread_cond_t cond; /* this condition will be signal when the traffic
-			  control packet has been updated */
+                          control packet has been updated */
 
   struct ipe_packet packet[2]; /* array of two traffic control packets. One
-				* is active, whereas the other is ready to
-				* receive new data. After having received and
-				* validated a new packet, the receiving thread
-				* will switch the roles of both slots */
+                                * is active, whereas the other is ready to
+                                * receive new data. After having received and
+                                * validated a new packet, the receiving thread
+                                * will switch the roles of both slots */
   int activePacket; /* which one of the 2 packets is currently active? */
 
   struct route *lastMatchedRoute; /* pointer to last matched route
-				     (performance optimization) */
+                                     (performance optimization) */
 };
 
 /**
@@ -162,14 +162,14 @@ static void *ipe_initialize(void)
  * converted to the appropriate type by this rate governor
  *
  * In this example, the following properties are supported
- *  - ip	the multicast ip address which receives the traffic control
- *		packets
- *  - port	the UDP port which receives the traffic control packets
- *  - if	the network interface (default eth0) which receives the
- *		traffic control packets
+ *  - ip        the multicast ip address which receives the traffic control
+ *              packets
+ *  - port      the UDP port which receives the traffic control packets
+ *  - if        the network interface (default eth0) which receives the
+ *              traffic control packets
  *  - maxFillLevel stop transmitting packets if buffers on IPE are fuller than
- *		this level (expressed in percent of available buffer size).
- *		Default is 80
+ *    this level (expressed in percent of available buffer size).
+ *    Default is 80
  */
 static void ipe_setProp(void *p, const char *key, const char *value)
 {
@@ -245,7 +245,7 @@ static void ipe_endConfig(void *data)
  * The rate governor may uses this to wait until the ougoing channel is
  * ready to receive more data
  * Parameters:
- *  p	  the rate governor private data
+ *  p     the rate governor private data
  *  fd    file descriptor to which data is going to be sent
  *  ip    ip address to which data is going to be sent
  *  bytes bytes number of bytes which will be sent
@@ -263,14 +263,14 @@ static void ipe_wait(void *p, int fd, in_addr_t ip, long bytes)
     if(me->havePacket) {
       route = findRoute(me, ip);
       if(route == NULL)
-	/* no route found => no ratelimit... */
-	break;
+        /* no route found => no ratelimit... */
+        break;
 
       level = ntohl(route->buffer_level);
       length = ntohl(route->buffer_length);
       if(bytes < length * me->maxFillLevel / 100  - level)
-	/* enough space left for new packet */
-	break;
+        /* enough space left for new packet */
+        break;
     }
     pthread_cond_wait(&me->cond, &me->mutex);
   }

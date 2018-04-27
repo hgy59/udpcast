@@ -20,12 +20,12 @@ my $buf = pack("NN", $l, $l*16);
 
 foreach my $i (@ARGV) {
     if($i =~ /(.*)\/(.*):(.*)\/(.*)/) {
-	my ($ip, $mask, $level, $length) = ($1,$2,$3,$4);
-	$buf .= inet_aton($ip);
-	$buf .= inet_aton($mask);
-	$buf .= pack("NN", $length, $level);
+        my ($ip, $mask, $level, $length) = ($1,$2,$3,$4);
+        $buf .= inet_aton($ip);
+        $buf .= inet_aton($mask);
+        $buf .= pack("NN", $length, $level);
     } else {
-	die "Bad arg $i\n";
+        die "Bad arg $i\n";
     }
 }
 

@@ -17,17 +17,17 @@ struct timespec {
 };
 
 static inline int pthread_create(pthread_t *thread, void *dummy1,
-				 LPTHREAD_START_ROUTINE start_routine, 
-				 void *arg) {
+                                 LPTHREAD_START_ROUTINE start_routine, 
+                                 void *arg) {
   /* Start thread ... 
      * see http://msdn.microsoft.com/library/default.asp?url=/library/en-us/dllproc/base/createthread.asp
-     */	       
-    *thread = CreateThread(NULL,	/* lpThreadAttributes */
-			   0,	/* dwStackSize */
-			   start_routine,
-			   arg,	/* lpParameter */
-			   0,	/* dwCreationFlags */
-			   NULL    /* lpThreadId */);
+     */               
+    *thread = CreateThread(NULL,        /* lpThreadAttributes */
+                           0,        /* dwStackSize */
+                           start_routine,
+                           arg,        /* lpParameter */
+                           0,        /* dwCreationFlags */
+                           NULL    /* lpThreadId */);
     return *thread != NULL ? 0 : -1;
 }
 
@@ -64,7 +64,7 @@ static inline int pthread_cond_signal(pthread_cond_t  *cond) {
 }
 
 static inline int pthread_cond_wait(pthread_cond_t  *cond, 
-				    pthread_mutex_t *mutex) {
+                                    pthread_mutex_t *mutex) {
   int r;
   ResetEvent(*cond);
   LeaveCriticalSection(mutex);
@@ -83,8 +83,8 @@ static inline void pthread_cancel(pthread_t *thread)
 #define BILLION 1000000000
 
 static inline int pthread_cond_timedwait(pthread_cond_t  *cond, 
-					 pthread_mutex_t *mutex,
-					 struct timespec *ts) {
+                                         pthread_mutex_t *mutex,
+                                         struct timespec *ts) {
   int r;
   struct timeval tv;
   long delta;

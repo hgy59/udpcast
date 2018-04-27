@@ -43,7 +43,7 @@ typedef struct rateGovernor_t {
    * The rate governor may uses this to wait until the ougoing channel is
    * ready to receive more data
    * Parameters:
-   *  p	  the rate governor private data
+   *  p     the rate governor private data
    *  fd    file descriptor to which data is going to be sent
    *  ip    ip address to which data is going to be sent
    *  bytes bytes number of bytes which will be sent
