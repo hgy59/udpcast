@@ -10,7 +10,7 @@
 struct rate_limit {
     long long date;
     long long realDate;
-    int bitrate;
+    unsigned long bitrate;
     int queueSize;
 };
 
