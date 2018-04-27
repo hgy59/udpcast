@@ -69,7 +69,7 @@ void sendDisconnect(int exitStatus,
     disconnect.reserved = 0;
     SSEND(disconnect);
     if (exitStatus == 0)
-	udpc_flprintf("Transfer complete.\007\n");
+	udpc_flprintf("Transfer complete.\n");
 }
 
 

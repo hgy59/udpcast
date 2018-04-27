@@ -532,7 +532,7 @@ static int doTransfer(int sock,
     if(in != origIn)
       close(origIn);
 
-    udpc_flprintf("Transfer complete.\007\n");
+    udpc_flprintf("Transfer complete.\n");
 #ifdef USE_SYSLOG
     syslog(LOG_INFO, "Transfer complete.");
 #endif
