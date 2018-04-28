@@ -148,7 +148,7 @@ static void usage(char *progname) {
 #ifdef FLAG_AUTORATE
             " [--autorate]"
 #endif
-            "[--license]\n", progname); /* FIXME: copy new options to busybox */
+            " [--license]\n", progname); /* FIXME: copy new options to busybox */
 #else /* HAVE_GETOPT_LONG */
     fprintf(stderr, "%s [-f file] [-d] [-p pipe] [-P portbase] [-b size] [-i net-interface] [-m data-mcast-address] [-M mcast-rdv-address] [-r bitrate] [-1] [-a] [-l logfile] [-t time-to-live] [-F <stripes>x<redundancy>/<stripesize>][-H hello-retransmit-interval] [-S autostart] [-B] [-C min-receivers] [-w min-wait-sec] [-w max-wait-sec] [-T start-timeout] [-R n] [-k] [-I n] [-x uncomprStatPrint] [-z statPeriod] [-Z] [-Y rehello-offset]"
 #ifdef DL_RATE_GOVERNOR
