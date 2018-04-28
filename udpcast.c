@@ -8,7 +8,7 @@ int udpc_parseCommand(char *pipeName, char **arg) {
     char *ptr;
     int i;
     int haveSpace;
-    
+
     haveSpace=1;
     i=0;
     for(ptr=pipeName; *ptr; ptr++) {

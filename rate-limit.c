@@ -83,7 +83,7 @@ static void doRateLimit(void *data, int fd, in_addr_t ip, long size) {
             rateLimit->date = now;
             return;
         }
-        
+
         rateLimit->queueSize -= bits / 8;
         rateLimit->date += bits * LLMILLION / rateLimit->bitrate;
         rateLimit->realDate = now;

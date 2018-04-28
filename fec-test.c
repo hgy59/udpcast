@@ -29,28 +29,28 @@ mul2(gf *dst1, gf *src1, gf c, int sz)
                  "    xorl %%edx,%%edx;\n"
                  "1: "
                  "    addl  $8, %%edi;\n"
-                 
+
                  "    movb  (%%esi), %%al;\n"
                  "    movb 4(%%esi), %%dl;\n"
                  "    movb  (%%ebx,%%eax), %%al;\n"
                  "    movb  (%%ebx,%%edx), %%dl;\n"
                  "    movb  %%al,  (%%edi);\n"
                  "    movb  %%dl, 4(%%edi);\n"
-                 
+
                  "    movb 1(%%esi), %%al;\n"
                  "    movb 5(%%esi), %%dl;\n"
                  "    movb  (%%ebx,%%eax), %%al;\n"
                  "    movb  (%%ebx,%%edx), %%dl;\n"
                  "    movb  %%al, 1(%%edi);\n"
                  "    movb  %%dl, 5(%%edi);\n"
-                 
+
                  "    movb 2(%%esi), %%al;\n"
                  "    movb 6(%%esi), %%dl;\n"
                  "    movb  (%%ebx,%%eax), %%al;\n"
                  "    movb  (%%ebx,%%edx), %%dl;\n"
                  "    movb  %%al, 2(%%edi);\n"
                  "    movb  %%dl, 6(%%edi);\n"
-                 
+
                  "    movb 3(%%esi), %%al;\n"
                  "    movb 7(%%esi), %%dl;\n"
                  "    addl  $8, %%esi;\n"
@@ -58,12 +58,12 @@ mul2(gf *dst1, gf *src1, gf c, int sz)
                  "    movb  (%%ebx,%%edx), %%dl;\n"
                  "    movb  %%al, 3(%%edi);\n"
                  "    movb  %%dl, 7(%%edi);\n"
-                 
+
                  "    cmpl  %%ecx, %%esi;\n"
                  "    jb 1b;\n"
-                 
-                 : : 
-                 
+
+                 : :
+
                  "b" (__gf_mulc_),
                  "D" (dst1-8),
                  "S" (src1),
@@ -134,7 +134,7 @@ int main(int argc, char **argv) {
 
 /*
 static unsigned char highbit_test[] __attribute__ ((aligned (16))) =
-{ 0x80, 0x80, 0x80, 0x80, 
+{ 0x80, 0x80, 0x80, 0x80,
   0x80, 0x80, 0x80, 0x80 };
 
 static unsigned char multable[16] __attribute__ ((aligned (16)));
@@ -186,19 +186,19 @@ static void mmx_addmul1(gf *dst1, gf *src1, gf c, int sz)
         "   movq         (%%esi),%%mm2;\n"
         "   movq         (%%edi),%%mm1;\n"
         "   movq          %%mm2,%%mm3;\n"
-        
+
         "   pcmpgtb       %%mm0,%%mm3;\n"
         "   pandn         (%%ebx),%%mm3;\n"
         "   psllw        $1,%%mm2;\n"
         "   movq          %%mm2,%%mm4;\n"
         "   pxor          %%mm3,%%mm1;\n"
-        
+
         "   pcmpgtb       %%mm0,%%mm3;\n"
         "   pandn    0x08(%%ebx),%%mm4;\n"
         "   psllw         $1,%%mm2;\n"
         "   movq          %%mm2,%%mm3;\n"
         "   pxor          %%mm4,%%mm1;\n"
-        
+
         "   pcmpgtb       %%mm0,%%mm3;\n"
         "   psllw        $1,%%mm2;\n"
         "   pandn    0x10(%%ebx),%%mm3;\n"
@@ -210,37 +210,37 @@ static void mmx_addmul1(gf *dst1, gf *src1, gf c, int sz)
         "   pandn    0x18(%%ebx),%%mm4;\n"
         "   movq          %%mm2,%%mm3;\n"
         "   pxor          %%mm4,%%mm1;\n"
-        
+
         "   pcmpgtb       %%mm0,%%mm3;\n"
         "   pandn    0x20(%%ebx),%%mm3;\n"
         "   psllw        $1,%%mm2;\n"
         "   movq          %%mm2,%%mm4;\n"
         "   pxor          %%mm3,%%mm1;\n"
-        
+
         "   pcmpgtb       %%mm0,%%mm3;\n"
         "   psllw        $1,%%mm2;\n"
         "   pandn    0x28(%%ebx),%%mm4;\n"
         "   movq          %%mm2,%%mm3;\n"
         "   pxor          %%mm4,%%mm1;\n"
-        
+
         "   pcmpgtb       %%mm0,%%mm3;\n"
         "   psllw        $1,%%mm2;\n"
         "   pandn    0x30(%%ebx),%%mm3;\n"
-        
+
         "   pcmpgtb       %%mm0,%%mm2;\n"
         "   pxor          %%mm3,%%mm1;\n"
         "   pandn     0x38(%%ebx),%%mm4;\n"
         "   addl         $8,%%edi;\n"
         "   pxor          %%mm4,%%mm1;\n"
         "   addl         $8,%%esi;\n"
-        
+
         "   movq      %%mm1,-8(%%edi);\n"
-        
+
         "   cmpl %%ecx,%%esi;\n"
         "   jb 1b;\n"
-        
+
         : :
-        
+
         "b" (exp8+(255-gf_log[c])*8),
         "c" (sz+src1),
         "S" (src1),
@@ -278,7 +278,7 @@ int main(int argc, char **argv) {
     struct timeval tv;
     int seed;
     long long begin, end;
-    
+
 #if 1
     gettimeofday(&tv, 0);
     seed = tv.tv_sec ^ tv.tv_usec;
@@ -296,12 +296,12 @@ int main(int argc, char **argv) {
     fprintf(stderr, "Size=%d nr=%d\n", size, nrBlocks);
 
     data = xmalloc(size+4096);
-    data += 4096 - ((unsigned long) data) % 4096; 
+    data += 4096 - ((unsigned long) data) % 4096;
     fec_size = blocksize*redundancy;
     fec_data = xmalloc(fec_size+4096);
-    fec_data += 4096 - ((unsigned long) fec_data) % 4096; 
+    fec_data += 4096 - ((unsigned long) fec_data) % 4096;
     fec_data2 = xmalloc(fec_size+4096);
-    fec_data2 += 4096 - ((unsigned long) fec_data2) % 4096; 
+    fec_data2 += 4096 - ((unsigned long) fec_data2) % 4096;
     n = read(0, data, size);
     if(n < size) {
         fprintf(stderr, "Short read\n");
@@ -325,9 +325,9 @@ int main(int argc, char **argv) {
     fec_encode(blocksize, data_blocks, nrBlocks, fec_blocks, redundancy);
     end = rdtsc();
 
-    fprintf(stderr,"times %ld %f %f\n", 
+    fprintf(stderr,"times %ld %f %f\n",
             (unsigned long) (end-begin),
-            ((double) (end-begin)) / 
+            ((double) (end-begin)) /
             blocksize / nrBlocks / redundancy,
             ((double) (end-begin)) / blocksize / nrBlocks);
 
@@ -336,7 +336,7 @@ int main(int argc, char **argv) {
     for(i=0; i<1024; i++)
         zilch[i]=0;
 
-    for(i=0; i < corrupted; i++) {        
+    for(i=0; i < corrupted; i++) {
         int corr = random() % nrBlocks;
         memset(data+blocksize*corr,137,blocksize);
         fprintf(stderr, "Corrupting %d\n", corr);
@@ -356,7 +356,7 @@ int main(int argc, char **argv) {
                 erased_blocks[nr_fec_blocks] = i;
                 fec_block_nos[nr_fec_blocks] = fec_pos;
                 fprintf(stderr, "Fixing %d with %d (%p)\n",
-                        i, fec_pos, fec_blocks[fec_pos]);                
+                        i, fec_pos, fec_blocks[fec_pos]);
                 dec_fec_blocks[nr_fec_blocks] = fec_blocks[fec_pos];
                 nr_fec_blocks++;
                 assert(fec_pos <= redundancy);
@@ -368,22 +368,22 @@ int main(int argc, char **argv) {
             fprintf(stderr, "stripe%d: ", stripe);
             for(i=0; i<fec_blocks[stripe]; i++) {
                 int pos = i * stripes+stripe;
-                fprintf(stderr, "%p.%d.%d ",d[pos].adr, 
+                fprintf(stderr, "%p.%d.%d ",d[pos].adr,
                        d[pos].erasedBlockNo, d[pos].fecBlockNo);
             }
             fprintf(stderr,"\n");
         }
-#endif        
+#endif
         begin = rdtsc();
-        fec_decode(blocksize, data_blocks, nrBlocks, 
-                   dec_fec_blocks, fec_block_nos, erased_blocks, 
+        fec_decode(blocksize, data_blocks, nrBlocks,
+                   dec_fec_blocks, fec_block_nos, erased_blocks,
                    nr_fec_blocks);
         end = rdtsc();
-        fprintf(stderr,"times %ld %f %f\n", 
+        fprintf(stderr,"times %ld %f %f\n",
                 (unsigned long) (end-begin),
-                ((double) (end-begin)) / 
+                ((double) (end-begin)) /
                 blocksize / nrBlocks / redundancy,
-                ((double) (end-begin)) / blocksize / nrBlocks);        
+                ((double) (end-begin)) / blocksize / nrBlocks);
     }
     /* printDetail();*/
 
@@ -525,7 +525,7 @@ int main(int argc, char **argv) {
 
     for(i=0; i<SIZE*5; i++) {
         if(block[i] != block2[i]) {
-            fprintf(stderr, "%05d %02x %02x %02x\n", i, 
+            fprintf(stderr, "%05d %02x %02x %02x\n", i,
                     block[i], block2[i], block3[i]);
             break;
         }
@@ -533,7 +533,7 @@ int main(int argc, char **argv) {
 
     for(i=0; i<SIZE*5; i++) {
         if(block[i] != block4[i]) {
-            fprintf(stderr, "mmx %05d %02x %02x %02x\n", i, 
+            fprintf(stderr, "mmx %05d %02x %02x %02x\n", i,
                     block[i], block4[i], block3[i]);
             break;
         }
@@ -574,11 +574,11 @@ int main(int argc, char **argv) {
     char result='X';
 
     asm("addl %%ecx, %%ebx; \n"
-        "movb (%%ebx), %%al" : 
-        "=al" (result) : 
+        "movb (%%ebx), %%al" :
+        "=al" (result) :
         "ebx" (i), "ecx" (testing):
         "esi");
-    
+
     printf("%c\n", result);
     return 0;
 }

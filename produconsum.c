@@ -105,7 +105,7 @@ static int _consumeAny(produconsum_t pc, unsigned int minAmount,
                        struct timespec *ts) {
     unsigned int amount;
 #if DEBUG
-    flprintf("%s: Waiting for %d bytes (%d:%d)\n", 
+    flprintf("%s: Waiting for %d bytes (%d:%d)\n",
             pc->name, minAmount, pc->consumed, pc->produced);
 #endif
     pc->consumerIsWaiting=1;
@@ -120,7 +120,7 @@ static int _consumeAny(produconsum_t pc, unsigned int minAmount,
     pthread_mutex_lock(&pc->mutex);
     while((amount=getProducedAmount(pc)) < minAmount && !pc->atEnd) {
 #if DEBUG
-        flprintf("%s: ..Waiting for %d bytes (%d:%d)\n", 
+        flprintf("%s: ..Waiting for %d bytes (%d:%d)\n",
                 pc->name, minAmount, pc->consumed, pc->produced);
 #endif
         if(ts == 0)
@@ -142,7 +142,7 @@ static int _consumeAny(produconsum_t pc, unsigned int minAmount,
     }
     pthread_mutex_unlock(&pc->mutex);
 #if DEBUG
-    flprintf("%s: Got them %d (for %d) %d\n", pc->name, 
+    flprintf("%s: Got them %d (for %d) %d\n", pc->name,
             amount, minAmount, pc->atEnd);
 #endif
     pc->consumerIsWaiting=0;
@@ -186,7 +186,7 @@ int pc_consumeContiguousMinAmount(produconsum_t pc, int amount)
     if(n > l)
         n = l;
     return n;
-    
+
 }
 
 int pc_consume(produconsum_t pc, int amount)

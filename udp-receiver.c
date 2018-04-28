@@ -107,10 +107,10 @@ static void intHandler(int nr) {
 #ifdef NO_BB
 static void usage(char *progname) {
 #ifdef HAVE_GETOPT_LONG
-    fprintf(stderr, "%s [--file file] [--pipe pipe] [--portbase portbase] [--interface net-interface] [--log file] [--no-progress] [--ttl time-to-live] [--mcast-rdv-address mcast-rdv-address] [--rcvbuf buf] [--nokbd] [--exit-wait milliseconds] [--nosync] [--sync] [--start-timeout sto] [--receive-timeout rct] [--license] [-x uncomprStatPrint] [-z statPeriod] [--print-uncompressed-position flag] [--stat-period millis] [--ignore-lost-data]\n", 
+    fprintf(stderr, "%s [--file file] [--pipe pipe] [--portbase portbase] [--interface net-interface] [--log file] [--no-progress] [--ttl time-to-live] [--mcast-rdv-address mcast-rdv-address] [--rcvbuf buf] [--nokbd] [--exit-wait milliseconds] [--nosync] [--sync] [--start-timeout sto] [--receive-timeout rct] [--license] [-x uncomprStatPrint] [-z statPeriod] [--print-uncompressed-position flag] [--stat-period millis] [--ignore-lost-data]\n",
             progname);
 #else /* HAVE_GETOPT_LONG */
-    fprintf(stderr, "%s [--f file] [--p pipe] [-P portbase] [-i net-interface] [-l logfile] [-t time-to-live] [-M mcast-rdv-address] [-b rcvbuf] [-k] [-w exit-wait-milliseconds] [-n] [-y] [-s start-timeout] [-L] [-x uncomprStatPrint] [-z statPeriod] [-Z]\n", 
+    fprintf(stderr, "%s [--f file] [--p pipe] [-P portbase] [-i net-interface] [-l logfile] [-t time-to-live] [-M mcast-rdv-address] [-b rcvbuf] [-k] [-w exit-wait-milliseconds] [-n] [-y] [-s start-timeout] [-L] [-x uncomprStatPrint] [-z statPeriod] [-Z]\n",
             progname);
 #endif /* HAVE_GETOPT_LONG */
     exit(1);
@@ -170,7 +170,7 @@ int main(int argc, char **argv)
         ptr = argv[0];
     else
         ptr++;
-    
+
     net_config.net_if = NULL;
     if (strcmp(ptr, "init") == 0) {
         doWarn = 1;
@@ -249,7 +249,7 @@ int main(int argc, char **argv)
                 break;
 
             case 's': /* start-timeout */
-                net_config.startTimeout = atoi(optarg);                
+                net_config.startTimeout = atoi(optarg);
                 break;
 
             case 0x801: /* receive-timeout */
@@ -287,7 +287,7 @@ int main(int argc, char **argv)
 #ifdef USE_SYSLOG
     openlog((const char *)"udpcast", LOG_NDELAY|LOG_PID, LOG_SYSLOG);
 #endif
-    
+
     ret= startReceiver(doWarn, &disk_config, &net_config, &stat_config, ifName);
     if(ret < 0) {
       fprintf(stderr, "Receiver error\n");

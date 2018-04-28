@@ -17,11 +17,11 @@ struct timespec {
 };
 
 static inline int pthread_create(pthread_t *thread, void *dummy1,
-                                 LPTHREAD_START_ROUTINE start_routine, 
+                                 LPTHREAD_START_ROUTINE start_routine,
                                  void *arg) {
-  /* Start thread ... 
+  /* Start thread ...
      * see http://msdn.microsoft.com/library/default.asp?url=/library/en-us/dllproc/base/createthread.asp
-     */               
+     */
     *thread = CreateThread(NULL,   /* lpThreadAttributes */
                            0,      /* dwStackSize */
                            start_routine,
@@ -63,7 +63,7 @@ static inline int pthread_cond_signal(pthread_cond_t  *cond) {
   return SetEvent(*cond) ? 0 : -1;
 }
 
-static inline int pthread_cond_wait(pthread_cond_t  *cond, 
+static inline int pthread_cond_wait(pthread_cond_t  *cond,
                                     pthread_mutex_t *mutex) {
   int r;
   ResetEvent(*cond);
@@ -82,7 +82,7 @@ static inline void pthread_cancel(pthread_t *thread)
 #define MILLION    1000000
 #define BILLION 1000000000
 
-static inline int pthread_cond_timedwait(pthread_cond_t  *cond, 
+static inline int pthread_cond_timedwait(pthread_cond_t  *cond,
                                          pthread_mutex_t *mutex,
                                          struct timespec *ts) {
   int r;
@@ -91,14 +91,14 @@ static inline int pthread_cond_timedwait(pthread_cond_t  *cond,
 
   gettimeofday(&tv, NULL);
 
-  delta = (ts->tv_sec - tv.tv_sec) * 1000 + 
+  delta = (ts->tv_sec - tv.tv_sec) * 1000 +
     (ts->tv_nsec / BILLION - tv.tv_usec / MILLION);
   if(delta < 0)
     delta = 0;
 
   ResetEvent(*cond);
   LeaveCriticalSection(mutex);
-  
+
   switch(WaitForSingleObject(*cond, delta )) {
   case WAIT_OBJECT_0:
     r=0;
