@@ -17,8 +17,8 @@
 
 #else /* ! BB_BT */
 
-#define TRUE    1
-#define FALSE   0
+#define TRUE                    1
+#define FALSE                   0
 
 #ifdef HAVE_MALLOC_H
     #include <malloc.h>

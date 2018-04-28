@@ -183,63 +183,68 @@ static void mmx_addmul1(gf *dst1, gf *src1, gf c, int sz)
     MYTICK();
     asm volatile(
         "1:"
-        "        movq         (%%esi),%%mm2;\n"            
-        "        movq         (%%edi),%%mm1;\n"
+        "   movq         (%%esi),%%mm2;\n"
+        "   movq         (%%edi),%%mm1;\n"
         "   movq          %%mm2,%%mm3;\n"
         
-        "   pcmpgtb              %%mm0,%%mm3;\n"
-        "   pandn            (%%ebx),%%mm3;\n"
+        "   pcmpgtb       %%mm0,%%mm3;\n"
+        "   pandn         (%%ebx),%%mm3;\n"
         "   psllw        $1,%%mm2;\n"
         "   movq          %%mm2,%%mm4;\n"
-        "   pxor              %%mm3,%%mm1;\n"
+        "   pxor          %%mm3,%%mm1;\n"
         
-        "   pcmpgtb              %%mm0,%%mm3;\n"
-        "   pandn         0x08(%%ebx),%%mm4;\n"
-        "   psllw        $1,%%mm2;\n"
+        "   pcmpgtb       %%mm0,%%mm3;\n"
+        "   pandn    0x08(%%ebx),%%mm4;\n"
+        "   psllw         $1,%%mm2;\n"
         "   movq          %%mm2,%%mm3;\n"
-        "   pxor              %%mm4,%%mm1;\n"
+        "   pxor          %%mm4,%%mm1;\n"
         
-        "   pcmpgtb              %%mm0,%%mm3;\n"
+        "   pcmpgtb       %%mm0,%%mm3;\n"
         "   psllw        $1,%%mm2;\n"
-        "   pandn         0x10(%%ebx),%%mm3;\n"
+        "   pandn    0x10(%%ebx),%%mm3;\n"
         "   movq          %%mm2,%%mm4;\n"
-        "   pxor              %%mm3,%%mm1;\n"
+        "   pxor          %%mm3,%%mm1;\n"
 
-        "   pcmpgtb              %%mm0,%%mm3;\n"
+        "   pcmpgtb       %%mm0,%%mm3;\n"
         "   psllw        $1,%%mm2;\n"
-        "   pandn         0x18(%%ebx),%%mm4;\n"
+        "   pandn    0x18(%%ebx),%%mm4;\n"
         "   movq          %%mm2,%%mm3;\n"
-        "   pxor              %%mm4,%%mm1;\n"
+        "   pxor          %%mm4,%%mm1;\n"
         
-        "   pcmpgtb              %%mm0,%%mm3;\n"
-        "   pandn         0x20(%%ebx),%%mm3;\n"
+        "   pcmpgtb       %%mm0,%%mm3;\n"
+        "   pandn    0x20(%%ebx),%%mm3;\n"
         "   psllw        $1,%%mm2;\n"
         "   movq          %%mm2,%%mm4;\n"
-        "   pxor              %%mm3,%%mm1;\n"
+        "   pxor          %%mm3,%%mm1;\n"
         
-        "   pcmpgtb              %%mm0,%%mm3;\n"
+        "   pcmpgtb       %%mm0,%%mm3;\n"
         "   psllw        $1,%%mm2;\n"
-        "   pandn         0x28(%%ebx),%%mm4;\n"
+        "   pandn    0x28(%%ebx),%%mm4;\n"
         "   movq          %%mm2,%%mm3;\n"
-        "   pxor              %%mm4,%%mm1;\n"
+        "   pxor          %%mm4,%%mm1;\n"
         
-        "   pcmpgtb              %%mm0,%%mm3;\n"
+        "   pcmpgtb       %%mm0,%%mm3;\n"
         "   psllw        $1,%%mm2;\n"
-        "   pandn         0x30(%%ebx),%%mm3;\n"
+        "   pandn    0x30(%%ebx),%%mm3;\n"
         
-        "   pcmpgtb              %%mm0,%%mm2;\n"
-        "   pxor              %%mm3,%%mm1;\n"
-        "   pandn         0x38(%%ebx),%%mm4;\n"
-        "   addl           $8,%%edi;\n"
-        "   pxor              %%mm4,%%mm1;\n"
-        "   addl           $8,%%esi;\n"
+        "   pcmpgtb       %%mm0,%%mm2;\n"
+        "   pxor          %%mm3,%%mm1;\n"
+        "   pandn     0x38(%%ebx),%%mm4;\n"
+        "   addl         $8,%%edi;\n"
+        "   pxor          %%mm4,%%mm1;\n"
+        "   addl         $8,%%esi;\n"
         
         "   movq      %%mm1,-8(%%edi);\n"
         
-        "        cmpl %%ecx,%%esi;\n"
-        "        jb 1b;\n" :  :
+        "   cmpl %%ecx,%%esi;\n"
+        "   jb 1b;\n"
+        
+        : :
+        
         "b" (exp8+(255-gf_log[c])*8),
-        "c" (sz+src1), "S" (src1), "D" (dst1) : "eax");
+        "c" (sz+src1),
+        "S" (src1),
+        "D" (dst1) : "eax");
     MYTOCK();
 #endif
 }

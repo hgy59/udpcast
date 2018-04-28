@@ -32,7 +32,7 @@ int logprintf(FILE *logfile, const char *fmt, ...) {
 static int newlineSeen=1;
 
 static int vlogprintf(FILE *logfile, const char *fmt, va_list ap) {
-    if(logfile != NULL) {        
+    if(logfile != NULL) {
         char buf[9];
         struct timeval tv;
         int r;

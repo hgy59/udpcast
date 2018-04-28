@@ -168,8 +168,8 @@ static void *ipe_initialize(void)
  *  - if        the network interface (default eth0) which receives the
  *              traffic control packets
  *  - maxFillLevel stop transmitting packets if buffers on IPE are fuller than
- *    this level (expressed in percent of available buffer size).
- *    Default is 80
+ *              this level (expressed in percent of available buffer size).
+ *              Default is 80
  */
 static void ipe_setProp(void *p, const char *key, const char *value)
 {

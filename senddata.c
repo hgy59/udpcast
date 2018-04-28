@@ -569,7 +569,7 @@ static int handleRetransmit(sender_state_t sendst,
         return 0;
     }
     if(slice == NULL)
-        return 0;    
+        return 0;
     if (rxmit < slice->rxmitId) {
 #if 0
         flprintf("Late answer\n");
@@ -721,7 +721,7 @@ static void cancelReturnChannel(struct returnChannel *returnChannel) {
     pthread_join(returnChannel->thread, NULL);
 }
 
-static THREAD_RETURN netSenderMain(void        *args0)
+static THREAD_RETURN netSenderMain(void *args0)
 {
     sender_state_t sendst = (sender_state_t) args0;
     struct net_config *config = sendst->config;

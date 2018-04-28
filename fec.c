@@ -109,24 +109,24 @@ typedef unsigned char gf;
  * Primitive polynomials - see Lin & Costello, Appendix A,
  * and  Lee & Messerschmitt, p. 453.
  */
-static char *allPp[] = {    /* GF_BITS        polynomial                */
-    NULL,                    /*  0        no code                        */
-    NULL,                    /*  1        no code                        */
-    "111",                    /*  2        1+x+x^2                        */
-    "1101",                    /*  3        1+x+x^3                        */
-    "11001",                    /*  4        1+x+x^4                        */
-    "101001",                    /*  5        1+x^2+x^5                */
-    "1100001",                    /*  6        1+x+x^6                        */
-    "10010001",                    /*  7        1 + x^3 + x^7                */
-    "101110001",            /*  8        1+x^2+x^3+x^4+x^8        */
-    "1000100001",            /*  9        1+x^4+x^9                */
-    "10010000001",            /* 10        1+x^3+x^10                */
-    "101000000001",            /* 11        1+x^2+x^11                */
-    "1100101000001",            /* 12        1+x+x^4+x^6+x^12        */
-    "11011000000001",            /* 13        1+x+x^3+x^4+x^13        */
-    "110000100010001",            /* 14        1+x+x^6+x^10+x^14        */
-    "1100000000000001",            /* 15        1+x+x^15                */
-    "11010000000010001"            /* 16        1+x+x^3+x^12+x^16        */
+static char *allPp[] = {    /* GF_BITS  polynomial              */
+    NULL,                   /*  0       no code                 */
+    NULL,                   /*  1       no code                 */
+    "111",                  /*  2       1+x+x^2                 */
+    "1101",                 /*  3       1+x+x^3                 */
+    "11001",                /*  4       1+x+x^4                 */
+    "101001",               /*  5       1+x^2+x^5               */
+    "1100001",              /*  6       1+x+x^6                 */
+    "10010001",             /*  7       1 + x^3 + x^7           */
+    "101110001",            /*  8       1+x^2+x^3+x^4+x^8       */
+    "1000100001",           /*  9       1+x^4+x^9               */
+    "10010000001",          /* 10       1+x^3+x^10              */
+    "101000000001",         /* 11       1+x^2+x^11              */
+    "1100101000001",        /* 12       1+x+x^4+x^6+x^12        */
+    "11011000000001",       /* 13       1+x+x^3+x^4+x^13        */
+    "110000100010001",      /* 14       1+x+x^6+x^10+x^14       */
+    "1100000000000001",     /* 15       1+x+x^15                */
+    "11010000000010001"     /* 16       1+x+x^3+x^12+x^16       */
 };
 
 
@@ -354,42 +354,42 @@ addmul1(gf *dst1, gf *src1, gf c, int sz)
     }
 
     asm volatile("xorl %%eax,%%eax;\n"
-                 "        xorl %%edx,%%edx;\n"
+                 "      xorl %%edx,%%edx;\n"
                  ".align 32;\n"
                  "1:"
-                 "        addl  $8, %%edi;\n"
+                 "      addl  $8, %%edi;\n"
                  
-                 "        movb  (%%esi), %%al;\n"
-                 "        movb 4(%%esi), %%dl;\n"
-                 "        movb  (%%ebx,%%eax), %%al;\n"
-                 "        movb  (%%ebx,%%edx), %%dl;\n"
-                 "        xorb  %%al,  (%%edi);\n"
-                 "        xorb  %%dl, 4(%%edi);\n"
+                 "      movb  (%%esi), %%al;\n"
+                 "      movb 4(%%esi), %%dl;\n"
+                 "      movb  (%%ebx,%%eax), %%al;\n"
+                 "      movb  (%%ebx,%%edx), %%dl;\n"
+                 "      xorb  %%al,  (%%edi);\n"
+                 "      xorb  %%dl, 4(%%edi);\n"
                  
-                 "        movb 1(%%esi), %%al;\n"
-                 "        movb 5(%%esi), %%dl;\n"
-                 "        movb  (%%ebx,%%eax), %%al;\n"
-                 "        movb  (%%ebx,%%edx), %%dl;\n"
-                 "        xorb  %%al, 1(%%edi);\n"
-                 "        xorb  %%dl, 5(%%edi);\n"
+                 "      movb 1(%%esi), %%al;\n"
+                 "      movb 5(%%esi), %%dl;\n"
+                 "      movb  (%%ebx,%%eax), %%al;\n"
+                 "      movb  (%%ebx,%%edx), %%dl;\n"
+                 "      xorb  %%al, 1(%%edi);\n"
+                 "      xorb  %%dl, 5(%%edi);\n"
                  
-                 "        movb 2(%%esi), %%al;\n"
-                 "        movb 6(%%esi), %%dl;\n"
-                 "        movb  (%%ebx,%%eax), %%al;\n"
-                 "        movb  (%%ebx,%%edx), %%dl;\n"
-                 "        xorb  %%al, 2(%%edi);\n"
-                 "        xorb  %%dl, 6(%%edi);\n"
+                 "      movb 2(%%esi), %%al;\n"
+                 "      movb 6(%%esi), %%dl;\n"
+                 "      movb  (%%ebx,%%eax), %%al;\n"
+                 "      movb  (%%ebx,%%edx), %%dl;\n"
+                 "      xorb  %%al, 2(%%edi);\n"
+                 "      xorb  %%dl, 6(%%edi);\n"
                  
-                 "        movb 3(%%esi), %%al;\n"
-                 "        movb 7(%%esi), %%dl;\n"
-                 "        addl  $8, %%esi;\n"
-                 "        movb  (%%ebx,%%eax), %%al;\n"
-                 "        movb  (%%ebx,%%edx), %%dl;\n"
-                 "        xorb  %%al, 3(%%edi);\n"
-                 "        xorb  %%dl, 7(%%edi);\n"
+                 "      movb 3(%%esi), %%al;\n"
+                 "      movb 7(%%esi), %%dl;\n"
+                 "      addl  $8, %%esi;\n"
+                 "      movb  (%%ebx,%%eax), %%al;\n"
+                 "      movb  (%%ebx,%%edx), %%dl;\n"
+                 "      xorb  %%al, 3(%%edi);\n"
+                 "      xorb  %%dl, 7(%%edi);\n"
                  
-                 "        cmpl  %%ecx, %%esi;\n"
-                 "        jb 1b;"
+                 "      cmpl  %%ecx, %%esi;\n"
+                 "      jb 1b;"
                  : : 
                  
                  "b" (__gf_mulc_),
@@ -479,43 +479,43 @@ mul1(gf *dst1, gf *src1, gf c, int sz)
     asm volatile("pushl %%eax;\n"
                  "pushl %%edx;\n"
                  "xorl %%eax,%%eax;\n"
-                 "        xorl %%edx,%%edx;\n"
+                 "      xorl %%edx,%%edx;\n"
                  "1:"
-                 "        addl  $8, %%edi;\n"
+                 "      addl  $8, %%edi;\n"
                  
-                 "        movb  (%%esi), %%al;\n"
-                 "        movb 4(%%esi), %%dl;\n"
-                 "        movb  (%%ebx,%%eax), %%al;\n"
-                 "        movb  (%%ebx,%%edx), %%dl;\n"
-                 "        movb  %%al,  (%%edi);\n"
-                 "        movb  %%dl, 4(%%edi);\n"
+                 "      movb  (%%esi), %%al;\n"
+                 "      movb 4(%%esi), %%dl;\n"
+                 "      movb  (%%ebx,%%eax), %%al;\n"
+                 "      movb  (%%ebx,%%edx), %%dl;\n"
+                 "      movb  %%al,  (%%edi);\n"
+                 "      movb  %%dl, 4(%%edi);\n"
                  
-                 "        movb 1(%%esi), %%al;\n"
-                 "        movb 5(%%esi), %%dl;\n"
-                 "        movb  (%%ebx,%%eax), %%al;\n"
-                 "        movb  (%%ebx,%%edx), %%dl;\n"
-                 "        movb  %%al, 1(%%edi);\n"
-                 "        movb  %%dl, 5(%%edi);\n"
+                 "      movb 1(%%esi), %%al;\n"
+                 "      movb 5(%%esi), %%dl;\n"
+                 "      movb  (%%ebx,%%eax), %%al;\n"
+                 "      movb  (%%ebx,%%edx), %%dl;\n"
+                 "      movb  %%al, 1(%%edi);\n"
+                 "      movb  %%dl, 5(%%edi);\n"
                  
-                 "        movb 2(%%esi), %%al;\n"
-                 "        movb 6(%%esi), %%dl;\n"
-                 "        movb  (%%ebx,%%eax), %%al;\n"
-                 "        movb  (%%ebx,%%edx), %%dl;\n"
-                 "        movb  %%al, 2(%%edi);\n"
-                 "        movb  %%dl, 6(%%edi);\n"
+                 "      movb 2(%%esi), %%al;\n"
+                 "      movb 6(%%esi), %%dl;\n"
+                 "      movb  (%%ebx,%%eax), %%al;\n"
+                 "      movb  (%%ebx,%%edx), %%dl;\n"
+                 "      movb  %%al, 2(%%edi);\n"
+                 "      movb  %%dl, 6(%%edi);\n"
                  
-                 "        movb 3(%%esi), %%al;\n"
-                 "        movb 7(%%esi), %%dl;\n"
-                 "        addl  $8, %%esi;\n"
-                 "        movb  (%%ebx,%%eax), %%al;\n"
-                 "        movb  (%%ebx,%%edx), %%dl;\n"
-                 "        movb  %%al, 3(%%edi);\n"
-                 "        movb  %%dl, 7(%%edi);\n"
+                 "      movb 3(%%esi), %%al;\n"
+                 "      movb 7(%%esi), %%dl;\n"
+                 "      addl  $8, %%esi;\n"
+                 "      movb  (%%ebx,%%eax), %%al;\n"
+                 "      movb  (%%ebx,%%edx), %%dl;\n"
+                 "      movb  %%al, 3(%%edi);\n"
+                 "      movb  %%dl, 7(%%edi);\n"
                  
-                 "        cmpl  %%ecx, %%esi;\n"
-                 "        jb 1b;\n"
-                 "        popl %%edx;\n"
-                 "        popl %%eax;"
+                 "      cmpl  %%ecx, %%esi;\n"
+                 "      jb 1b;\n"
+                 "      popl %%edx;\n"
+                 "      popl %%eax;"
                  : : 
                  
                  "b" (__gf_mulc_),

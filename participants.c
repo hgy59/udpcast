@@ -30,7 +30,7 @@ int isParticipantValid(struct participantsDb *db, int i) {
 
 int removeParticipant(struct participantsDb *db, int i) {
     if(db->clientTable[i].used) {
-        char ipBuffer[16];        
+        char ipBuffer[16];
         flprintf("Disconnecting #%d (%s)\n", i, 
                  getIpString(&db->clientTable[i].addr, ipBuffer));
 #ifdef USE_SYSLOG

@@ -22,11 +22,11 @@ static inline int pthread_create(pthread_t *thread, void *dummy1,
   /* Start thread ... 
      * see http://msdn.microsoft.com/library/default.asp?url=/library/en-us/dllproc/base/createthread.asp
      */               
-    *thread = CreateThread(NULL,        /* lpThreadAttributes */
-                           0,        /* dwStackSize */
+    *thread = CreateThread(NULL,   /* lpThreadAttributes */
+                           0,      /* dwStackSize */
                            start_routine,
-                           arg,        /* lpParameter */
-                           0,        /* dwCreationFlags */
+                           arg,    /* lpParameter */
+                           0,      /* dwCreationFlags */
                            NULL    /* lpThreadId */);
     return *thread != NULL ? 0 : -1;
 }

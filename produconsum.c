@@ -110,7 +110,7 @@ static int _consumeAny(produconsum_t pc, unsigned int minAmount,
 #endif
     pc->consumerIsWaiting=1;
     amount = getProducedAmount(pc);
-    if(amount >= minAmount || pc->atEnd) {        
+    if(amount >= minAmount || pc->atEnd) {
         pc->consumerIsWaiting=0;
 #if DEBUG
         flprintf("%s: got %d bytes\n",pc->name, amount);

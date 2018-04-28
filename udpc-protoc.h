@@ -14,23 +14,23 @@ enum opCode {
 
     CMD_OK,	     /* all is ok, no need to retransmit anything */
     CMD_RETRANSMIT,  /* receiver asks for some data to be retransmitted */
-    CMD_GO,             /* receiver tells server to start */
+    CMD_GO,          /* receiver tells server to start */
     CMD_CONNECT_REQ, /* receiver tries to find out server's address */
     CMD_DISCONNECT,  /* receiver wants to disconnect itself */
 
-    CMD_UNUSED,             /* obsolete version of CMD_HELLO, dating back to the
+    CMD_UNUSED,      /* obsolete version of CMD_HELLO, dating back to the
                       * time when we had little endianness (PC). This
                       * opcode contained a long unnoticed bug with parsing of
                       * blocksize */
 
     /* Sender to receiver */
-    CMD_REQACK,             /* server request acknowledgments from receiver */
+    CMD_REQACK,      /* server request acknowledgments from receiver */
     CMD_CONNECT_REPLY, /* receiver tries to find out server's address */
 
     CMD_DATA,        /* a block of data */
-    CMD_FEC,             /* a forward-error-correction block */
+    CMD_FEC,         /* a forward-error-correction block */
 
-    CMD_HELLO_NEW,          /* sender says he's up */
+    CMD_HELLO_NEW,        /* sender says he's up */
     CMD_HELLO_STREAMING,  /* retransmitted hello during streaming mode */
 };
 
