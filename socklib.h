@@ -143,6 +143,7 @@ int makeSocket(addr_type_t addr_type, net_if_t *net_if,
                struct sockaddr_in *tmpl, int port);
 
 int setSocketToBroadcast(int sock);
+int setSocketReuseAddress(int sock);
 int setTtl(int sock, int ttl);
 
 int setMcastDestination(int,net_if_t *,struct sockaddr_in *);

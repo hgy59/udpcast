@@ -351,8 +351,14 @@ int setSocketToBroadcast(int sock) {
     return setsockopt(sock, SOL_SOCKET, SO_BROADCAST, (char *)&p, sizeof(int));
 }
 
+int setSocketReuseAddress(int sock) {
+    /* set the socket option to reuse address with bind() */
+    int p = 1;
+    return setsockopt(sock, SOL_SOCKET, SO_REUSEADDR, (char *)&p, sizeof(int));
+}
+
 int setTtl(int sock, int ttl) {
-    /* set the socket to broadcast */
+    /* set the ttl value for the socket */
     return setsockopt(sock, SOL_IP, IP_MULTICAST_TTL, (char*)&ttl, sizeof(int));
 }
 
@@ -934,6 +940,9 @@ int makeSocket(addr_type_t addr_type,
       closesocket(s);
       return -1;
     }
+    ret = setSocketReuseAddress(s);
+    if(ret < 0)
+        udpc_fatal(1, "Failed to set socket option to reuse address");
     ret = bind(s, (struct sockaddr *) &myaddr, sizeof(myaddr));
     if (ret < 0) {
         char buffer[16];
